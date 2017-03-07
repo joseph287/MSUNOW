@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">MSU NOW</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">"Password "</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="action_sign_up">Sign up!</string>
+    <string name="prompt_create_email">Email</string>
+    <string name="prompt_create_password">Password</string>
+    <string name="prompt_dob">Date of Birth</string>
+    <string name="action_register">Not yet registered? Register Here!</string>
+    <string name="forgot_pw">Forgot your password?</string>
+    <string name="forgetpage_title">Enter your account information</string>
+    <string name="forgot_submit">Submit</string>
+    <string name="forgot_password_new">New Password</string>
+</resources>
