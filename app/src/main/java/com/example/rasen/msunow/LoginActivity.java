@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText etEmail = (EditText) findViewById(R.id.log_email);
         final EditText etPasswrd = (EditText) findViewById(R.id.log_pass);
         final Button bLogin = (Button) findViewById(R.id.bttn_login);
-        final TextView registerLink = (TextView) findViewById(R.id.tv_Regiser);
+        final TextView registerLink = (TextView) findViewById(R.id.tv_Register);
         final TextView forgotPass = (TextView) findViewById(R.id.passReset);
 
 
