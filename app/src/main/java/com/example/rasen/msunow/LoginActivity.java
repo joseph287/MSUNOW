@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                                 intent.putExtra("last name", lName);
                                 intent.putExtra("age", age);
                                 LoginActivity.this.startActivity(intent);
-
+//
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 builder.setMessage("Login Failed")
