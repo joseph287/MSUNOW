@@ -14,22 +14,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity"
-           android:screenOrientation="sensorLandscape" />
-        <activity android:name=".UserInputActivity"
-            android:screenOrientation="sensorLandscape"/>
-        <activity android:name=".LoginActivity"
-            android:screenOrientation="sensorLandscape">
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".UserInputActivity"/>
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RoomPage"
-            android:screenOrientation="sensorLandscape"/>
-        <activity android:name=".ForgetActivity"
-            android:screenOrientation="sensorLandscape">
+        <activity android:name=".RoomPage"/>
+        <activity android:name=".ForgetActivity">
         </activity>
     </application>
 
