@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "279690727372",
+    "firebase_url": "https://msunow-c7bc2.firebaseio.com",
+    "project_id": "msunow-c7bc2",
+    "storage_bucket": "msunow-c7bc2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279690727372:android:24f4c425b5a5cfad",
+        "android_client_info": {
+          "package_name": "com.example.rasen.msunow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279690727372-72t1t35rgdq4an955an11ihgi5l8c9kc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvd0xVkn537ZGmsXp4iYVQKq2fw63PR_c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
