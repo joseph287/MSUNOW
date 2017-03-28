@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorAppBar">#FFC133</color>
+    <color name="colorButton">#1EC603</color>1EC603
+    <color name="colorPrimaryDarkRed">#C0403C</color>
+    <color name="colorFloatingButton">#F0514B</color>
+    <color name="colorTiles">#AA88DB</color>
+    <color name="colorText">#000000</color>
 </resources>
