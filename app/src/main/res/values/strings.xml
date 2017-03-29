@@ -15,7 +15,7 @@
     </string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
-    <string name="action_sign_up">Sign up!</string>
+    <string name="action_sign_up">Register!</string>
     <string name="prompt_create_email">Email</string>
     <string name="prompt_create_password">Password</string>
     <string name="prompt_dob">Date of Birth</string>

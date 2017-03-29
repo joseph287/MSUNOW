@@ -1,6 +1,5 @@
 package com.example.rasen.msunow;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,40 +22,42 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
+    //layout items declared
+    private EditText etEmail;
+    private EditText etPassword;
+    private Button bLogin;
+    private Button bResisterLink;
+    private Button bForgotPasswordLink;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final EditText etEmail = (EditText) findViewById(R.id.log_email);
-        final EditText etPasswrd = (EditText) findViewById(R.id.log_pass);
-        final Button bLogin = (Button) findViewById(R.id.bttn_login);
-        final TextView registerLink = (TextView) findViewById(R.id.tv_Register);
-        final TextView forgotPass = (TextView) findViewById(R.id.passReset);
+        // binding the layout with activity
+        etEmail = (EditText) findViewById(R.id.log_email);
+        etPassword = (EditText) findViewById(R.id.log_pass);
+        bLogin = (Button) findViewById(R.id.bttn_login);
 
+        //login click onClick Listener
+        findViewById((R.id.bttn_login)).setOnClickListener(new MyLsnr());
+        //Not Registered yet? Register Here onClick Listener
+        findViewById((R.id.bRegisterLink)).setOnClickListener(new MyLsnr());
+        //Forgot Passpord onClick Listener
+        findViewById((R.id.bForgotPasswordLink)).setOnClickListener(new MyLsnr());
+    }
 
-        registerLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                LoginActivity.this.startActivity(registerIntent);
-            }
-        });
+    // OnClick Listener for Login,Forgot Password and new registration.
+    private class MyLsnr implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
 
-        forgotPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent forgotIntent = new Intent(LoginActivity.this, ForgetActivity.class);
-                LoginActivity.this.startActivity(forgotIntent);
-            }
-        });
+            //Login
+            if (v.getId() == R.id.bttn_login) {
 
-        bLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 final String eMail = etEmail.getText().toString();
-                final String passwd = etPasswrd.getText().toString();
+                final String passwd = etPassword.getText().toString();
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -106,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
-                etPasswrd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView txtView, int actionId, KeyEvent event) {
                         boolean handled = false;
@@ -120,6 +121,19 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
             }
-        });
+
+            //Redirecting to Register Page
+            if (v.getId() == R.id.bRegisterLink) {
+                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                LoginActivity.this.startActivity(registerIntent);
+            }
+
+            //Redirecting to Forgot Password Page
+            if (v.getId() == R.id.bForgotPasswordLink) {
+                Intent forgotIntent = new Intent(LoginActivity.this, ForgetActivity.class);
+                LoginActivity.this.startActivity(forgotIntent);
+            }
+
+        }
     }
 }
