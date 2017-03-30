@@ -56,43 +56,43 @@ public class LoginActivity extends AppCompatActivity {
             //Login
             if (v.getId() == R.id.bttn_login) {
 
-                final String eMail = etEmail.getText().toString();
-                final String passwd = etPassword.getText().toString();
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-
-                            if (success) {
-                                String email = jsonResponse.getString("email");
-                                int age = jsonResponse.getInt("age");
-                                String fName = jsonResponse.getString("First name");
-                                String lName = jsonResponse.getString("Last name");
-
-                                Intent intent = new Intent(LoginActivity.this, RoomPage.class);
-                                intent.putExtra("email", email);
-                                intent.putExtra("first name", fName);
-                                intent.putExtra("last name", lName);
-                                intent.putExtra("age", age);
-                                LoginActivity.this.startActivity(intent);
+//                final String eMail = etEmail.getText().toString();
+//                final String passwd = etPassword.getText().toString();
+//                Response.Listener<String> responseListener = new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        try {
+//                            JSONObject jsonResponse = new JSONObject(response);
+//                            boolean success = jsonResponse.getBoolean("success");
 //
-                            } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                builder.setMessage("Login Failed")
-                                        .setNegativeButton("Retry", null)
-                                        .create()
-                                        .show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                LoginRequest loginRequest = new LoginRequest(eMail, passwd, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
+//                            if (success) {
+//                                String email = jsonResponse.getString("email");
+//                                int age = jsonResponse.getInt("age");
+//                                String fName = jsonResponse.getString("First name");
+//                                String lName = jsonResponse.getString("Last name");
+//
+//                                Intent intent = new Intent(LoginActivity.this, RoomPage.class);
+//                                intent.putExtra("email", email);
+//                                intent.putExtra("first name", fName);
+//                                intent.putExtra("last name", lName);
+//                                intent.putExtra("age", age);
+//                                LoginActivity.this.startActivity(intent);
+////
+//                            } else {
+//                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+//                                builder.setMessage("Login Failed")
+//                                        .setNegativeButton("Retry", null)
+//                                        .create()
+//                                        .show();
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                };
+//                LoginRequest loginRequest = new LoginRequest(eMail, passwd, responseListener);
+//                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+//                queue.add(loginRequest);
 
                 etEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
@@ -119,7 +119,8 @@ public class LoginActivity extends AppCompatActivity {
                         return handled;
                     }
                 });
-
+                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                startActivity(intent);
             }
 
             //Redirecting to Register Page
