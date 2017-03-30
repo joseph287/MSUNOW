@@ -40,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etLastName;
     private EditText etEmail;
     private EditText etPassword;
-    private EditText etDOB;
+    private TextView etDOB;
     private Button bRegister;
 
     @Override
@@ -52,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
         etLastName = (EditText) findViewById(R.id.reg_lastName);
         etEmail = (EditText) findViewById(R.id.reg_Email);
         etPassword = (EditText) findViewById(R.id.reg_Passw);
-        etDOB = (EditText) findViewById(R.id.DOB);
+        etDOB = (TextView) findViewById(R.id.DOB);
         bRegister = (Button) findViewById(R.id.bttn_register);
 
         final Calendar myCalendar = Calendar.getInstance();
@@ -162,10 +162,10 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         // DoB validation
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         Date date = new Date();
         System.out.println(dateFormat.format(date));
-        if (TextUtils.isEmpty(dob) | !validateDoB(dob) | dob.compareTo((dateFormat.format(date)).toString()) >= 0) {
+        if (TextUtils.isEmpty(dob)) {
             etDOB.setError("Please select valid date of birth");
             isValid = false;
         }
@@ -195,8 +195,8 @@ public class RegisterActivity extends AppCompatActivity {
             matcher.reset();
 
             if (matcher.find()) {
-                String day = matcher.group(1);
-                String month = matcher.group(2);
+                String day = matcher.group(2);
+                String month = matcher.group(1);
                 int year = Integer.parseInt(matcher.group(3));
 
                 if (day.equals("31") &&
@@ -241,7 +241,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         clearErrors();
         if (verifyData(fName, lName, email, password, dob)) {
-
+            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
             responseListener = new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {

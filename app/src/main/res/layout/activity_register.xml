@@ -76,7 +76,7 @@
         android:onClick="onRegisterClick"
         android:text="@string/action_sign_up" />
 
-    <EditText
+    <TextView
         android:id="@+id/DOB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/reg_Passw"
         android:ems="10"
-        android:hint="@string/prompt_dob"
-        android:inputType="date" />
+        android:textSize="20sp"
+        android:hint="@string/prompt_dob" />
 
 </RelativeLayout>
