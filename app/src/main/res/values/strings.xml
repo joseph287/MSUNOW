@@ -18,7 +18,7 @@
     <string name="action_sign_up">Register!</string>
     <string name="prompt_create_email">Email</string>
     <string name="prompt_create_password">Password</string>
-    <string name="prompt_dob">mm/dd/yy</string>
+    <string name="prompt_dob">mm/dd/yyyy</string>
     <string name="action_register">Not yet registered? Register Here!</string>
     <string name="forgot_pw">Forgot your password?</string>
     <string name="forgetpage_title">Enter your account information</string>

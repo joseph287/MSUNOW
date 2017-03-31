@@ -87,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void updateDoB() {
 
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM/dd/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         etDOB.setText(sdf.format(myCalendar.getTime()));
     }
@@ -116,10 +116,10 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         // DoB validation
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date date = new Date();
         System.out.println(dateFormat.format(date));
-        if (TextUtils.isEmpty(dob)) {
+        if (TextUtils.isEmpty(dob) | !validateDoB(dob) | dob.compareTo((dateFormat.format(date)).toString()) >= 0) {
             etDOB.setError("Please select valid date of birth");
             isValid = false;
         }
@@ -221,9 +221,9 @@ public class RegisterActivity extends AppCompatActivity {
             registerRequest.setDob(dob);
             database.child("users").child(registerRequest.getUserId()).setValue(registerRequest);
             finish();
-
+            Intent intent = new Intent(RegisterActivity.this, Dashboard.class);
+            startActivity(intent);
         }
-        Intent intent = new Intent(RegisterActivity.this, Dashboard.class);
-        startActivity(intent);
+
     }
 }
