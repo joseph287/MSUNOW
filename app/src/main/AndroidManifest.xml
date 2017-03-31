@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rasen.msunow">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -14,23 +16,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity"
-           android:screenOrientation="sensorLandscape" />
-        <activity android:name=".UserInputActivity"
-            android:screenOrientation="sensorLandscape"/>
-        <activity android:name=".LoginActivity"
-            android:screenOrientation="sensorLandscape">
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".UserInputActivity" />
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RoomPage"
-            android:screenOrientation="sensorLandscape"/>
-        <activity android:name=".ForgetActivity"
-            android:screenOrientation="sensorLandscape">
-        </activity>
+        <activity android:name=".RoomPage" />
+        <activity android:name=".ForgetActivity"></activity>
+        <activity
+            android:name=".Dashboard"
+            android:label="@string/title_activity_dashboard"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

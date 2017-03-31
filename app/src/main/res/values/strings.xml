@@ -15,13 +15,19 @@
     </string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
-    <string name="action_sign_up">Sign up!</string>
+    <string name="action_sign_up">Register!</string>
     <string name="prompt_create_email">Email</string>
     <string name="prompt_create_password">Password</string>
-    <string name="prompt_dob">Date of Birth</string>
+    <string name="prompt_dob">mm/dd/yyyy</string>
     <string name="action_register">Not yet registered? Register Here!</string>
     <string name="forgot_pw">Forgot your password?</string>
     <string name="forgetpage_title">Enter your account information</string>
     <string name="forgot_submit">Submit</string>
     <string name="forgot_password_new">New Password</string>
+    <string name="title_activity_dashboard">Dashboard</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

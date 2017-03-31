@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "279690727372",
+    "firebase_url": "https://msunow-c7bc2.firebaseio.com",
+    "project_id": "msunow-c7bc2",
+    "storage_bucket": "msunow-c7bc2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279690727372:android:24f4c425b5a5cfad",
+        "android_client_info": {
+          "package_name": "com.example.rasen.msunow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279690727372-v81mkr6dknb04emk03r9m1sebhns5cst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rasen.msunow",
+            "certificate_hash": "a404d322a2b8aeb36f9dfdaeab8adc1e982fb7b3"
+          }
+        },
+        {
+          "client_id": "279690727372-72t1t35rgdq4an955an11ihgi5l8c9kc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvd0xVkn537ZGmsXp4iYVQKq2fw63PR_c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279690727372-72t1t35rgdq4an955an11ihgi5l8c9kc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

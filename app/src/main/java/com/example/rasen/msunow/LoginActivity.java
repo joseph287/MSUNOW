@@ -1,6 +1,5 @@
 package com.example.rasen.msunow;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,75 +22,77 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
+    //layout items declared
+    private EditText etEmail;
+    private EditText etPassword;
+    private Button bLogin;
+    private Button bResisterLink;
+    private Button bForgotPasswordLink;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final EditText etEmail = (EditText) findViewById(R.id.log_email);
-        final EditText etPasswrd = (EditText) findViewById(R.id.log_pass);
-        final Button bLogin = (Button) findViewById(R.id.bttn_login);
-        final TextView registerLink = (TextView) findViewById(R.id.tv_Register);
-        final TextView forgotPass = (TextView) findViewById(R.id.passReset);
+        // binding the layout with activity
+        etEmail = (EditText) findViewById(R.id.log_email);
+        etPassword = (EditText) findViewById(R.id.log_pass);
+        bLogin = (Button) findViewById(R.id.bttn_login);
 
+        //login click onClick Listener
+        findViewById((R.id.bttn_login)).setOnClickListener(new MyLsnr());
+        //Not Registered yet? Register Here onClick Listener
+        findViewById((R.id.bRegisterLink)).setOnClickListener(new MyLsnr());
+        //Forgot Passpord onClick Listener
+        findViewById((R.id.bForgotPasswordLink)).setOnClickListener(new MyLsnr());
+    }
 
-        registerLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                LoginActivity.this.startActivity(registerIntent);
-            }
-        });
+    // OnClick Listener for Login,Forgot Password and new registration.
+    private class MyLsnr implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
 
-        forgotPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent forgotIntent = new Intent(LoginActivity.this, ForgetActivity.class);
-                LoginActivity.this.startActivity(forgotIntent);
-            }
-        });
+            //Login
+            if (v.getId() == R.id.bttn_login) {
 
-        bLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String eMail = etEmail.getText().toString();
-                final String passwd = etPasswrd.getText().toString();
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-
-                            if (success) {
-                                String email = jsonResponse.getString("email");
-                                int age = jsonResponse.getInt("age");
-                                String fName = jsonResponse.getString("First name");
-                                String lName = jsonResponse.getString("Last name");
-
-                                Intent intent = new Intent(LoginActivity.this, RoomPage.class);
-                                intent.putExtra("email", email);
-                                intent.putExtra("first name", fName);
-                                intent.putExtra("last name", lName);
-                                intent.putExtra("age", age);
-                                LoginActivity.this.startActivity(intent);
+//                final String eMail = etEmail.getText().toString();
+//                final String passwd = etPassword.getText().toString();
+//                Response.Listener<String> responseListener = new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        try {
+//                            JSONObject jsonResponse = new JSONObject(response);
+//                            boolean success = jsonResponse.getBoolean("success");
 //
-                            } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                builder.setMessage("Login Failed")
-                                        .setNegativeButton("Retry", null)
-                                        .create()
-                                        .show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                LoginRequest loginRequest = new LoginRequest(eMail, passwd, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
+//                            if (success) {
+//                                String email = jsonResponse.getString("email");
+//                                int age = jsonResponse.getInt("age");
+//                                String fName = jsonResponse.getString("First name");
+//                                String lName = jsonResponse.getString("Last name");
+//
+//                                Intent intent = new Intent(LoginActivity.this, RoomPage.class);
+//                                intent.putExtra("email", email);
+//                                intent.putExtra("first name", fName);
+//                                intent.putExtra("last name", lName);
+//                                intent.putExtra("age", age);
+//                                LoginActivity.this.startActivity(intent);
+////
+//                            } else {
+//                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+//                                builder.setMessage("Login Failed")
+//                                        .setNegativeButton("Retry", null)
+//                                        .create()
+//                                        .show();
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                };
+//                LoginRequest loginRequest = new LoginRequest(eMail, passwd, responseListener);
+//                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+//                queue.add(loginRequest);
 
                 etEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
@@ -106,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
-                etPasswrd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView txtView, int actionId, KeyEvent event) {
                         boolean handled = false;
@@ -118,8 +119,22 @@ public class LoginActivity extends AppCompatActivity {
                         return handled;
                     }
                 });
-
+                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                startActivity(intent);
             }
-        });
+
+            //Redirecting to Register Page
+            if (v.getId() == R.id.bRegisterLink) {
+                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                LoginActivity.this.startActivity(registerIntent);
+            }
+
+            //Redirecting to Forgot Password Page
+            if (v.getId() == R.id.bForgotPasswordLink) {
+                Intent forgotIntent = new Intent(LoginActivity.this, ForgetActivity.class);
+                LoginActivity.this.startActivity(forgotIntent);
+            }
+
+        }
     }
 }
