@@ -1,35 +1,131 @@
 package com.example.rasen.msunow;
 
-import android.support.v7.widget.LinearLayoutCompat;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
+public class RegisterRequest implements Parcelable {
 
-import java.util.HashMap;
-import java.util.Map;
+    //parameters required for user registration
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private String dob;
+    private String userId;
 
-/**
- * Created by Rasen on 2/26/2017.
- */
+    public String getUserId() {
+        return userId;
+    }
 
-public class RegisterRequest extends StringRequest {
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-    private static final String REGISTER_REQUEST_URL = "database.com/Register.php";
-    private Map<String, String> params;
+    // Getter and Setter of parameters
 
-    public RegisterRequest(String firstName, String lastName, String email, String password, String dob, Response.Listener<String> listener) {
-        super(Method.POST, REGISTER_REQUEST_URL, listener, null);
-        params = new HashMap<>();
-        params.put("First Name", firstName);
-        params.put("Last Name", lastName);
-        params.put("Email", email);
-        params.put("Password", password);
-        params.put("Date of Birth", dob);
+    public String getDob() {
+        return dob;
+    }
 
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public RegisterRequest() {
+    }
+
+    protected RegisterRequest(Parcel in) {
+        this.userId = in.readString();
+        this.firstName = in.readString();
+        this.lastName = in.readString();
+        this.email = in.readString();
+        this.password = in.readString();
+        this.dob = in.readString();
+    }
+
+
+    public static final Creator<RegisterRequest> CREATOR = new Creator<RegisterRequest>() {
+        @Override
+        public RegisterRequest createFromParcel(Parcel in) {
+            return new RegisterRequest(in);
+        }
+
+        @Override
+        public RegisterRequest[] newArray(int size) {
+            return new RegisterRequest[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
-    public Map<String, String> getParams() {
-        return params;
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.userId);
+        dest.writeString(this.firstName);
+        dest.writeString(this.lastName);
+        dest.writeString(this.email);
+        dest.writeString(this.password);
+        dest.writeString(this.dob);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        RegisterRequest registerRequest = (RegisterRequest) obj;
+
+        if (userId != null ? !userId.equals(registerRequest.userId) : registerRequest.userId != null)
+            return false;
+        if (firstName != null ? !firstName.equals(registerRequest.firstName) : registerRequest.firstName != null)
+            return false;
+        if (lastName != null ? !lastName.equals(registerRequest.lastName) : registerRequest.lastName != null)
+            return false;
+        if (email != null ? !email.equals(registerRequest.email) : registerRequest.email != null)
+            return false;
+        if (password != null ? !password.equals(registerRequest.password) : registerRequest.password != null)
+            return false;
+        return dob != null ? !dob.equals(registerRequest.dob) : registerRequest.dob != null;
     }
 }
