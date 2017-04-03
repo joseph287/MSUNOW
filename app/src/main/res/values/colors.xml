@@ -11,4 +11,5 @@
     <color name="colorPrimaryRed">#F0514B</color>
     <color name="colorPurple">#AA88DB</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorGrey">#f0f8ff</color>
 </resources>
