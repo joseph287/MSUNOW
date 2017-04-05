@@ -26,11 +26,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".RoomPage" />
-        <activity android:name=".ForgetActivity"></activity>
+        <activity android:name=".ForgetActivity" />
         <activity
             android:name=".Dashboard"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ForumPage"></activity>
     </application>
 
 </manifest>
