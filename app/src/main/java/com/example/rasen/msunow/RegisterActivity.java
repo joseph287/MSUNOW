@@ -25,7 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class RegisterActivity extends AppCompatActivity {
+public class  RegisterActivity extends AppCompatActivity {
 
     private EditText etFirstName;
     private EditText etLastName;
