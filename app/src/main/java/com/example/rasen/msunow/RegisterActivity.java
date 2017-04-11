@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -31,7 +33,7 @@ public class  RegisterActivity extends AppCompatActivity {
     private EditText etLastName;
     private EditText etEmail;
     private EditText etPassword;
-    private EditText etDOB;
+    private TextView etDOB;
     private Button bRegister;
 
     private DatabaseReference database;
@@ -50,7 +52,7 @@ public class  RegisterActivity extends AppCompatActivity {
         etLastName = (EditText) findViewById(R.id.reg_lastName);
         etEmail = (EditText) findViewById(R.id.reg_Email);
         etPassword = (EditText) findViewById(R.id.reg_Passw);
-        etDOB = (EditText) findViewById(R.id.DOB);
+        etDOB = (TextView) findViewById(R.id.DOB);
         bRegister = (Button) findViewById(R.id.btn_register);
 
         database = FirebaseDatabase.getInstance().getReference();
@@ -149,8 +151,8 @@ public class  RegisterActivity extends AppCompatActivity {
             matcher.reset();
 
             if (matcher.find()) {
-                String day = matcher.group(2);
-                String month = matcher.group(1);
+                String day = matcher.group(1);
+                String month = matcher.group(2);
                 int year = Integer.parseInt(matcher.group(3));
 
                 if (day.equals("31") &&
@@ -206,7 +208,7 @@ public class  RegisterActivity extends AppCompatActivity {
         clearErrors();
         //validating the entered data
         if (verifyData(firstName, lastName, email, password, dob)) {
-
+            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
             // registering the new user in the firebase database
             if (registerRequest == null) {
                 registerRequest = new RegisterRequest();
