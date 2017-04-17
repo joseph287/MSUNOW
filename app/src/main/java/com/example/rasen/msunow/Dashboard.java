@@ -15,11 +15,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.example.rasen.msunow.Utils.Utils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         HomePage.OnFragmentInteractionListener, AccountSettings.OnFragmentInteractionListener, SubsPage.OnFragmentInteractionListener {
 
     String mode;
+    DatabaseReference myRef;
+    FirebaseDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,12 +44,20 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        TextView useremail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
+        useremail.setText(getSharedPreferences(Utils.SHPRFN, MODE_APPEND).getString(Utils.CURRUSER, ""));
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
+
         mode = "HOME";
         setFragment();
     }
 
     private void setFragment() {
-
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_frame, new HomePage());
+        ft.commit();
     }
 
     @Override

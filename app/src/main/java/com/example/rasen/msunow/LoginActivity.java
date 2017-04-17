@@ -1,6 +1,7 @@
 package com.example.rasen.msunow;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.rasen.msunow.Utils.Utils;
+import com.facebook.stetho.Stetho;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -31,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private EditText loginInputEmail, loginInputPassword;
     private TextInputLayout loginInputLayoutEmail, loginInputLayoutPassword;
+    private SharedPreferences shprefs;
+    private SharedPreferences.Editor editor;
 
 
 
@@ -38,6 +43,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Stetho.initializeWithDefaults(this);
+
         auth = FirebaseAuth.getInstance();
 
         loginInputLayoutEmail = (TextInputLayout) findViewById(R.id.login_input_layout_email);
@@ -60,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginUser() {
 
-        String email = loginInputEmail.getText().toString().trim();
+        final String email = loginInputEmail.getText().toString().trim();
         String password = loginInputPassword.getText().toString().trim();
 
         if (!checkEmail()) {
@@ -84,6 +92,10 @@ public class LoginActivity extends AppCompatActivity {
                             // there was an error
                             Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                         } else {
+                            shprefs = getSharedPreferences(Utils.SHPRFN, MODE_APPEND);
+                            editor = shprefs.edit();
+                            editor.putString(Utils.CURRUSER, email);
+                            editor.commit();
                             Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                             startActivity(intent);
                             finish();

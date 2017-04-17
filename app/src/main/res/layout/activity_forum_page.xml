@@ -15,20 +15,21 @@
     <ListView
         android:id="@+id/fp_list"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:stackFromBottom="true"
         android:divider="@color/colorPrimary"
         android:transcriptMode="alwaysScroll"
         android:layout_below="@+id/forum_title"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/msgbar" />
 
     <LinearLayout
         android:id="@+id/msgbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/fp_list"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
