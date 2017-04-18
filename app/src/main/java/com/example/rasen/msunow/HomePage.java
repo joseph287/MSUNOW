@@ -1,12 +1,20 @@
 package com.example.rasen.msunow;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 
 /**
@@ -26,6 +34,7 @@ public class HomePage extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private View root;
 
     private OnFragmentInteractionListener mListener;
 
@@ -33,6 +42,40 @@ public class HomePage extends Fragment {
         // Required empty public constructor
     }
 
+    public void loadUI(){
+        AutoCompleteTextView search = (AutoCompleteTextView) root.findViewById(R.id.hp_searchbox);
+
+        Button searchbtn = (Button) root.findViewById(R.id.hp_searchbtn);
+
+        Spinner trendSpin = (Spinner) root.findViewById(R.id.hp_trending_spinner);
+        String[] trendTimes = {"Past Hour", "Past Day", "Past Week", "Past Month", "All Time"};
+        ArrayAdapter<String> spAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, trendTimes);
+        trendSpin.setAdapter(spAdapter);
+
+        ListView lvTrend = (ListView) root.findViewById(R.id.hp_listview_trending);
+        final String[] exampleTrend = {"TEST1", "TEST2", "TEST3", "TEST4", "TEST5"};
+        ArrayAdapter<String> tAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, exampleTrend);
+        lvTrend.setAdapter(tAdapter);
+        lvTrend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(), "TODO: Move to topic", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ListView lvRooms = (ListView) root.findViewById(R.id.hp_listview_rooms);
+        final String[] rooms = getActivity().getResources().getStringArray(R.array.rooms);
+        ArrayAdapter<String> rAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, rooms);
+        lvRooms.setAdapter(rAdapter);
+        lvRooms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), RoomPage.class);
+                intent.putExtra("ROOM", rooms[position]);
+                startActivity(intent);
+            }
+        });
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -64,7 +107,10 @@ public class HomePage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_page, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home_page, container, false);
+        root = rootView;
+        loadUI();
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

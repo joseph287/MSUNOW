@@ -16,7 +16,7 @@ import com.example.rasen.msunow.InputTopic.Topic;
 
 import java.util.Calendar;
 
-import static com.example.rasen.msunow.LoginActivity.user;
+//import static com.example.rasen.msunow.LoginActivity.user;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;

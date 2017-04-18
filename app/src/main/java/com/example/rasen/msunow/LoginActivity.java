@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.commit();
                             Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                             startActivity(intent);
-                            finish();
+//                            finish();
                         }
                     }
                 });
