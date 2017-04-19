@@ -44,6 +44,7 @@
     <string name="action_settings">Settings</string>
     <string name="topic_subject">Your Topic Subject</string>
     <string name="topic_body">Topic Body</string>
+    <string name="msunow">MSU NOW</string>
 
 
     <string-array name="rooms">

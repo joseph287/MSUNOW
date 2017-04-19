@@ -192,7 +192,7 @@ public class RegisterActivity extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date date = new Date();
         System.out.println(dateFormat.format(date));
-        if (TextUtils.isEmpty(dob) | !validateDoB(dob) | dob.compareTo((dateFormat.format(date)).toString()) >= 0) {
+        if (TextUtils.isEmpty(dob)) {
             etDOB.setError("Please select valid date of birth");
             isValid = false;
         }
