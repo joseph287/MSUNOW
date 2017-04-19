@@ -25,11 +25,11 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
+    <string name="first_name"> first name</string>
+    <string name="last_name"> last name</string>
     <string name="action_sign_up">Register!</string>
-    <string name="prompt_create_email">Email</string>
-    <string name="prompt_create_password">Password</string>
+    <string name="prompt_create_email">example@montclair.edu</string>
+    <string name="prompt_create_password">password</string>
     <string name="prompt_dob">mm/dd/yyyy</string>
     <string name="action_register">Not yet registered? Register Here!</string>
     <string name="forgot_pw">Forgot your password?</string>
@@ -45,6 +45,7 @@
     <string name="topic_subject">Your Topic Subject</string>
     <string name="topic_body">Topic Body</string>
     <string name="msunow">MSU NOW</string>
+    <string name="title_activity_register">Register</string>
 
 
     <string-array name="rooms">
