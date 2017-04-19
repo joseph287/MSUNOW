@@ -1,12 +1,26 @@
 package com.example.rasen.msunow;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.example.rasen.msunow.Utils.Utils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 
 /**
@@ -28,6 +42,25 @@ public class AccountSettings extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private ArrayList<String> users;
+    DatabaseReference myRef;
+    FirebaseDatabase database;
+    FirebaseAuth auth;
+    ChildEventListener mChildEventListener;
+    private SharedPreferences shprefs;
+    private View root;
+    // TODO: Get current user in email
+    private String email = "user1@montclair.edu";
+    private AccountSettings accountSettingRequest;
+
+    private EditText acstFirstName;
+    private EditText acstLastName;
+    private EditText acstEmail;
+    private EditText acstPassword;
+    private EditText acstDoB;
+    private Button acstSubmit;
+
 
     public AccountSettings() {
         // Required empty public constructor
@@ -64,7 +97,62 @@ public class AccountSettings extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account_settings, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_account_settings, container, false);
+        root = rootView;
+        loadUI();
+        return rootView;
+    }
+
+    private void loadUI() {
+
+        users = new ArrayList<>();
+        database = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
+        myRef = database.getReference("users");
+
+        acstFirstName = (EditText) root.findViewById(R.id.acst_firstName);
+        acstLastName = (EditText) root.findViewById(R.id.acst_lastName);
+        acstEmail = (EditText) root.findViewById(R.id.acst_Email);
+        acstPassword = (EditText) root.findViewById(R.id.acst_Password);
+        acstDoB = (EditText) root.findViewById(R.id.acst_DOB);
+        acstSubmit = (Button) root.findViewById(R.id.acst_btn_save_settings);
+
+        //useremail.setText(getSharedPreferences(Utils.SHPRFN, MODE_APPEND).getString(Utils.CURRUSER, ""));
+
+        mChildEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                RegisterRequest users = dataSnapshot.getValue(RegisterRequest.class);
+                if(users.getEmail().equals(email)) {
+                    acstFirstName.setText(users.getFirstName());
+                    acstLastName.setText(users.getLastName());
+                    acstEmail.setText(users.getEmail());
+                    acstPassword.setText(users.getPassword());
+                    acstDoB.setText(users.getDob());
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        myRef.addChildEventListener(mChildEventListener);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
