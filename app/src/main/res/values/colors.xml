@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorMSU">#CE1141</color>
+    <color name="colorMSUDark">#b60f3a</color>
 
     <color name="colorOrange">#FFC133</color>
     <color name="colorGreen">#1EC603</color>1EC603
@@ -11,4 +12,6 @@
     <color name="colorPrimaryRed">#F0514B</color>
     <color name="colorPurple">#AA88DB</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorGrey">#f0f8ff</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>

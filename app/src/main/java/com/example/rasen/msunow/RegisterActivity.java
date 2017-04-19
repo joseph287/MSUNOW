@@ -5,13 +5,18 @@ package com.example.rasen.msunow;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,6 +26,10 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -31,8 +40,11 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etLastName;
     private EditText etEmail;
     private EditText etPassword;
-    private EditText etDOB;
+    private TextView etDOB;
     private Button bRegister;
+    private FirebaseAuth auth;
+    private static final String TAG = "SignUp";
+    private ProgressBar progressBar;
 
     private DatabaseReference database;
     private RegisterRequest registerRequest;
@@ -45,12 +57,13 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        auth = FirebaseAuth.getInstance();
 
         etFirstName = (EditText) findViewById(R.id.reg_firstName);
         etLastName = (EditText) findViewById(R.id.reg_lastName);
         etEmail = (EditText) findViewById(R.id.reg_Email);
         etPassword = (EditText) findViewById(R.id.reg_Passw);
-        etDOB = (EditText) findViewById(R.id.DOB);
+        etDOB = (TextView) findViewById(R.id.DOB);
         bRegister = (Button) findViewById(R.id.btn_register);
 
         database = FirebaseDatabase.getInstance().getReference();
@@ -72,6 +85,66 @@ public class RegisterActivity extends AppCompatActivity {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        bRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitForm();
+
+            }
+        });
+    }
+
+    private void submitForm() {
+
+        // get the user entered data in variable
+        String firstName = etFirstName.getText().toString().trim();
+        String lastName = etLastName.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+        String dob = etDOB.getText().toString().trim();
+
+        clearErrors();
+        //validating the entered data
+        if (verifyData(firstName, lastName, email, password, dob)) {
+            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+
+            //create user
+            auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+                            // If sign in fails, Log the message to the LogCat. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
+                                Log.d(TAG, "Authentication failed." + task.getException());
+
+                            } else {
+                                startActivity(new Intent(RegisterActivity.this, Dashboard.class));
+                                finish();
+                            }
+                        }
+                    });
+            Toast.makeText(getApplicationContext(), "You are successfully Registered !!", Toast.LENGTH_SHORT).show();
+            // registering the new user in the firebase database
+            if (registerRequest == null) {
+                registerRequest = new RegisterRequest();
+                registerRequest.setUserId(database.child("users").push().getKey());
+            }
+
+            //adding each parameter in database
+            registerRequest.setFirstName(firstName);
+            registerRequest.setLastName(lastName);
+            registerRequest.setEmail(email);
+            registerRequest.setPassword(password);
+            registerRequest.setDob(dob);
+            database.child("users").child(registerRequest.getUserId()).setValue(registerRequest);
+            finish();
+            Intent intent = new Intent(RegisterActivity.this, Dashboard.class);
+            startActivity(intent);
+        }
     }
 
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -119,7 +192,7 @@ public class RegisterActivity extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date date = new Date();
         System.out.println(dateFormat.format(date));
-        if (TextUtils.isEmpty(dob) | !validateDoB(dob) | dob.compareTo((dateFormat.format(date)).toString()) >= 0) {
+        if (TextUtils.isEmpty(dob)) {
             etDOB.setError("Please select valid date of birth");
             isValid = false;
         }
@@ -149,8 +222,8 @@ public class RegisterActivity extends AppCompatActivity {
             matcher.reset();
 
             if (matcher.find()) {
-                String day = matcher.group(2);
-                String month = matcher.group(1);
+                String day = matcher.group(1);
+                String month = matcher.group(2);
                 int year = Integer.parseInt(matcher.group(3));
 
                 if (day.equals("31") &&
@@ -191,39 +264,5 @@ public class RegisterActivity extends AppCompatActivity {
         etEmail.setError(null);
         etPassword.setError(null);
         etDOB.setError(null);
-    }
-
-    // Register Button Click
-    public void onRegisterClick(View view) {
-
-        // get the user entered data in variable
-        String firstName = etFirstName.getText().toString();
-        String lastName = etLastName.getText().toString();
-        String email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
-        String dob = etDOB.getText().toString();
-
-        clearErrors();
-        //validating the entered data
-        if (verifyData(firstName, lastName, email, password, dob)) {
-
-            // registering the new user in the firebase database
-            if (registerRequest == null) {
-                registerRequest = new RegisterRequest();
-                registerRequest.setUserId(database.child("users").push().getKey());
-            }
-
-            //adding each parameter in database
-            registerRequest.setFirstName(firstName);
-            registerRequest.setLastName(lastName);
-            registerRequest.setEmail(email);
-            registerRequest.setPassword(password);
-            registerRequest.setDob(dob);
-            database.child("users").child(registerRequest.getUserId()).setValue(registerRequest);
-            finish();
-            Intent intent = new Intent(RegisterActivity.this, Dashboard.class);
-            startActivity(intent);
-        }
-
     }
 }

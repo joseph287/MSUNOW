@@ -8,55 +8,72 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorMSU"
+
     tools:context="com.example.rasen.msunow.LoginActivity">
 
-    <EditText
-        android:id="@+id/log_email"
+    <TextView
+        android:id="@+id/heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:hint="@string/prompt_email"
-        android:imeOptions="actionNext"
-        android:inputType="textEmailAddress" />
+        android:text="@string/msunow"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorWhite"
+        android:textSize="30sp"/>
 
-    <EditText
-        android:id="@+id/log_pass"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/login_input_layout_email"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/log_email"
-        android:ems="10"
-        android:hint="@string/prompt_password"
-        android:imeOptions="actionNext"
-        android:inputType="textPassword" />
+        android:layout_below="@+id/heading">
+
+        <EditText
+            android:id="@+id/login_input_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/prompt_email"
+            android:background="@drawable/rounded_edittext"
+            android:inputType="textEmailAddress" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/login_input_layout_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/login_input_layout_email">
+
+        <EditText
+            android:id="@+id/login_input_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/prompt_password"
+            android:background="@drawable/rounded_edittext"
+            android:inputType="textPassword" />
+    </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/bttn_login"
+        android:id="@+id/blogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/bForgotPasswordLink"
+        android:background="@drawable/button_signin"
+        android:textColor="@color/colorMSU"
+        android:textSize="15sp"
         android:text="@string/action_sign_in" />
 
     <Button
         android:id="@+id/bRegisterLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bttn_login"
+        android:layout_below="@+id/blogin"
         android:layout_centerHorizontal="true"
         android:background="@null"
         android:text="@string/action_register"
+        android:textColor="@color/colorWhite"
         android:visibility="visible" />
 
     <Button
@@ -67,8 +84,22 @@
         android:layout_alignLeft="@+id/bRegisterLink"
         android:layout_alignRight="@+id/bRegisterLink"
         android:layout_alignStart="@+id/bRegisterLink"
-        android:layout_below="@+id/log_pass"
+        android:layout_below="@+id/login_input_layout_password"
         android:background="@null"
         android:text="@string/forgot_pw"
+        android:textColor="@color/colorWhite"
         android:textAlignment="center" />
+
+    <Button
+        android:text="TestInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bRegisterLink"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="23dp"
+        android:id="@+id/button2"
+        android:onClick="test"/>
 </RelativeLayout>

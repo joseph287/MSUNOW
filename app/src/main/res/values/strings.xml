@@ -2,6 +2,18 @@
     <string name="app_name">MSU NOW</string>
 
     <!-- Strings related to login -->
+    <!--Firebase-->
+    <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
+    <string name="auth_failed">Authentication error, Please enter a valid email and password or sign up</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="btn_link_to_login">Already registered. Login !!</string>
+    <string name="btn_sign_out">Sign Out</string>
+    <string name="btn_sign_up">Sign Up !!</string>
+    <string name="err_msg_email">Enter a valid email.</string>
+    <string name="err_msg_required">Required !!</string>
+    <string name="err_msg_password">Enter a valid password with min 6 characters.</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">"Password "</string>
     <string name="action_sign_in">Sign in</string>
@@ -13,11 +25,11 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
+    <string name="first_name"> first name</string>
+    <string name="last_name"> last name</string>
     <string name="action_sign_up">Register!</string>
-    <string name="prompt_create_email">Email</string>
-    <string name="prompt_create_password">Password</string>
+    <string name="prompt_create_email">example@montclair.edu</string>
+    <string name="prompt_create_password">password</string>
     <string name="prompt_dob">mm/dd/yyyy</string>
     <string name="action_register">Not yet registered? Register Here!</string>
     <string name="forgot_pw">Forgot your password?</string>
@@ -30,4 +42,19 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="topic_subject">Your Topic Subject</string>
+    <string name="topic_body">Topic Body</string>
+    <string name="msunow">MSU NOW</string>
+    <string name="title_activity_register">Register</string>
+
+
+    <string-array name="rooms">
+        <item> Campus Sale</item>
+        <item> Study Together</item>
+        <item> See Something, Say something</item>
+        <item> Have Fun on Weekend</item>
+        <item> Tutor Services</item>
+        <item> General Discussion</item>
+
+    </string-array>
 </resources>
