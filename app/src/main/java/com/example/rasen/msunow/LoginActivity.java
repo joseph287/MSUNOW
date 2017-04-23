@@ -155,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
     public void test(View view) {
 
         startActivity(new Intent(this, UserInputActivity.class));
+
     }
 
     // OnClick Listener for Login,Forgot Password and new registration.

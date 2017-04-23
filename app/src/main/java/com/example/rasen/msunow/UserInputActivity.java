@@ -1,12 +1,17 @@
 package com.example.rasen.msunow;
 
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,6 +23,7 @@ import java.util.Calendar;
 
 //import static com.example.rasen.msunow.LoginActivity.user;
 
+import com.example.rasen.msunow.Utils.Utils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,6 +50,12 @@ public class UserInputActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private final String TOPIC="topic";
+
+    private SharedPreferences shprefs;
+    private SharedPreferences.Editor editor;
+
+    private CustomDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +63,6 @@ public class UserInputActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference(TOPIC);
-
-
 
         title = (EditText) findViewById(R.id.topic_title);
         body = (EditText) findViewById(R.id.topic_body);
@@ -78,17 +88,23 @@ public class UserInputActivity extends AppCompatActivity {
         });
 
 
+        shprefs = getSharedPreferences(Utils.SHPRFN,
+                Context.MODE_PRIVATE);
+
+        dialog= new CustomDialog(this);
+        dialog.setTitle("Your Topic has been posted");
 
     }
 
     //intent to previous page
     public void BackToPre(View view) {
-
-
+        startActivity(new Intent(this, Dashboard.class));
     }
 
     //cancel current post, and intent to other page
     public void cancel(View view) {
+        title.setText("");
+        body.setText("");
     }
 
     //insert data to database
@@ -97,18 +113,47 @@ public class UserInputActivity extends AppCompatActivity {
         input_title = title.getText().toString();
         input_body = body.getText().toString();
         //this can be replaced by user in login
-        author = "user1@montclair.edu";
-        time = Calendar.getInstance().getTime().toString();
-        photoURL = null;
-        karma = 0;
+       //author = "user1@montclair.edu";
+        author= shprefs.getString(Utils.CURRUSER, "the user's email");
 
-        Topic input = new Topic(input_title, input_body, input_room, author, time, photoURL, karma);
-        myRef.push().setValue(input);
+        if(!input_room.equals("")&&!input_body.equals("")&&!author.equals("")) {
 
-        startActivity(new Intent(this, topics_listview.class));
+            time = Calendar.getInstance().getTime().toString();
+            photoURL = null;
+            karma = 0;
 
+            Topic input = new Topic(input_title, input_body, input_room, author, time, photoURL, karma);
+            myRef.push().setValue(input);
+            dialog.show();
+
+        } else {
+            Toast.makeText(this, "Please say something" , Toast.LENGTH_LONG);
+        }
 
     }
+
+    public class CustomDialog extends Dialog implements View.OnClickListener {
+        Button btn1;
+        Activity mActivity;
+
+        public CustomDialog(Activity activity) {
+            super(activity);
+            mActivity = activity;
+            setContentView(R.layout.dialog);
+            btn1 = (Button) findViewById(R.id.diglog_btn);
+            btn1.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            if (v==btn1){
+                Intent i = new Intent(getApplicationContext(), Dashboard.class);
+                mActivity.startActivity(i);}
+    }
+
+
+}
 
 }
 
