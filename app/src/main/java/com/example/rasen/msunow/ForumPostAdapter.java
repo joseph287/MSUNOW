@@ -38,7 +38,7 @@ public class ForumPostAdapter extends ArrayAdapter<ForumPost> {
         body.setText(fp.getBody());
         author.setText(fp.getAuthor());
         time.setText(fp.getTime());
-        karma.setText(fp.getKarma());
+        karma.setText(String.valueOf(fp.getKarma()));
         //userIc.setImageBitmap(/*image*/);
 
         return convertView;

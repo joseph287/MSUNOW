@@ -10,23 +10,37 @@ public class ForumPost {
     private String time;
     private String photoURL;
     private int karma;
+    private String title;
+    private String room;
 
     public ForumPost(){
 
     }
 
-    public ForumPost(String body, String author, String time, String photoURL, int karma) {
+    public ForumPost(String body, String author, String time, String photoURL, int karma, String title, String room) {
         this.body = body;
         this.author = author;
         this.time = time;
         this.photoURL = photoURL;
         this.karma = karma;
+        this.title = title;
+        this.room = room;
     }
 
-    public ForumPost(String body, String author, String time) {
-        this.body = body;
-        this.author = author;
-        this.time = time;
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     public String getBody() {

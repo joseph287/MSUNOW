@@ -12,8 +12,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <Button
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/fp_upvote"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:background="@drawable/ic_up_arrow"/>
             <TextView
                 android:id="@+id/fp_karma"
@@ -22,8 +23,9 @@
                 android:text="0"
                 android:layout_gravity="center"/>
             <Button
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/fp_downvote"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:background="@drawable/ic_down_arrow"/>
         </LinearLayout>
         <TextView
