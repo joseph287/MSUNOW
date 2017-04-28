@@ -67,10 +67,11 @@
             android:hint="@string/prompt_dob" />
 
         <Button
-            android:id="@+id/acst_btn_save_settings"
+            android:id="@+id/acst_btn_update_changes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Changes" />
+            android:text="@string/update_changes"
+            android:onClick="onUpdateChangesClick"/>
     </LinearLayout>
 
 </FrameLayout>
