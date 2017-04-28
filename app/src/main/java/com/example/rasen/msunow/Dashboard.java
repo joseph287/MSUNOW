@@ -1,9 +1,8 @@
 package com.example.rasen.msunow;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -18,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.rasen.msunow.Utils.Utils;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -27,11 +27,13 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     String mode;
     DatabaseReference myRef;
     FirebaseDatabase database;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        auth = FirebaseAuth.getInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -95,6 +97,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         } else if (id == R.id.nav_settings) {
             fragment = new AccountSettings();
             fid = R.id.fragacset;
+        } else if (id == R.id.nav_logout){
+            auth.signOut();
+            finish();
+            Intent intent = new Intent(Dashboard.this,LoginActivity.class);
+            startActivity(intent);
         }
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

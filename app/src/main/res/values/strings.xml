@@ -47,6 +47,7 @@
     <string name="msunow">MSU NOW</string>
     <string name="title_activity_register">Register</string>
     <string name="update_changes">Update Changes</string>
+    <string name="nav_logout">Log Out</string>
 
 
     <string-array name="rooms">
