@@ -56,8 +56,9 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/prompt_create_password"
+            android:enabled="false"
             android:imeOptions="actionNext"
-            android:inputType="textPassword" />
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/acst_DOB"
@@ -66,12 +67,20 @@
             android:ems="10"
             android:hint="@string/prompt_dob" />
 
-        <Button
+        <!--<Button
             android:id="@+id/acst_btn_update_changes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/update_changes"
-            android:onClick="onUpdateChangesClick"/>
+            android:onClick="onUpdateChangesClick"/>-->
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/acst_btn_update_changes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_vector_done" />
 
 </FrameLayout>

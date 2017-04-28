@@ -2,8 +2,10 @@ package com.example.rasen.msunow;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -64,7 +66,8 @@ public class AccountSettings extends Fragment {
     private EditText acstEmail;
     private EditText acstPassword;
     private EditText acstDoB;
-    private Button acstUpdateChanges;
+    //private Button acstUpdateChanges;
+    private FloatingActionButton acstUpdateChanges;
 
     Map<String, String> activeUser;
 
@@ -135,7 +138,7 @@ public class AccountSettings extends Fragment {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-        acstUpdateChanges = (Button) root.findViewById(R.id.acst_btn_update_changes);
+        acstUpdateChanges = (FloatingActionButton) root.findViewById(R.id.acst_btn_update_changes);
         acstUpdateChanges.setOnClickListener(new UpdateChangesLsnr());
 
 
@@ -219,17 +222,15 @@ public class AccountSettings extends Fragment {
             // get the user entered data in variable
             final String firstName = acstFirstName.getText().toString().trim();
             final String lastName = acstLastName.getText().toString().trim();
-            final String password = acstPassword.getText().toString().trim();
             final String dob = acstDoB.getText().toString().trim();
 
             clearErrors();
             //validating the entered data
-            if (verifyData(firstName, lastName, password, dob)) {
+            if (verifyData(firstName, lastName, dob)) {
                 userRef = myRef.child(updateUserId);
                 Map<String, Object> userMap = new HashMap<String, Object>();
                 userMap.put("firstName", firstName);
                 userMap.put("lastName", lastName);
-                userMap.put("password", password);
                 userMap.put("dob", dob);
                 userRef.updateChildren(userMap);
             }
@@ -262,7 +263,7 @@ public class AccountSettings extends Fragment {
         acstDoB.setError(null);
     }
 
-    private boolean verifyData(String firstName, String lastName, String password, String dob) {
+    private boolean verifyData(String firstName, String lastName,String dob) {
         Boolean isValid = true;
 
         // FirstName validation
@@ -285,15 +286,6 @@ public class AccountSettings extends Fragment {
             acstDoB.setError("Please select valid date of birth");
             isValid = false;
         }
-
-        // Password validation, minimum 6 characters required
-        String passwordPattern = "(?=.*[A-Za-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$";
-        if (TextUtils.isEmpty(password) || !(password.matches(passwordPattern))) {
-            acstPassword.setError("Password should include alpha,no. & special characters with min length 6");
-            isValid = false;
-
-        }
-
         return isValid;
     }
 }
