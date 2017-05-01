@@ -94,7 +94,7 @@ public class SubsPage extends Fragment {
         if (user == auth.getCurrentUser()){
             loadSubs();
         }
-
+        return subList;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
