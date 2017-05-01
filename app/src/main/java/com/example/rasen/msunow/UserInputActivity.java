@@ -122,6 +122,7 @@ public class UserInputActivity extends AppCompatActivity {
                 time = getCurrentTime();
                 photoURL = null;
                 karma = 0;
+                subscribe= true;
 
                 Topic input = new Topic(input_title, input_body, input_room, author, time, photoURL, karma, subscribe);
                 myRef.push().setValue(input);
@@ -131,7 +132,6 @@ public class UserInputActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please say something", Toast.LENGTH_LONG);
             }
         }
-
     }
 
     private boolean dataInserted(String input_title, String input_body) {
