@@ -35,6 +35,7 @@ public class HomePage extends Fragment {
     private String mParam1;
     private String mParam2;
     private View root;
+    private Button input;
 
     private OnFragmentInteractionListener mListener;
 
@@ -46,6 +47,14 @@ public class HomePage extends Fragment {
         AutoCompleteTextView search = (AutoCompleteTextView) root.findViewById(R.id.hp_searchbox);
 
         Button searchbtn = (Button) root.findViewById(R.id.hp_searchbtn);
+
+        input = (Button) root.findViewById(R.id.hp_input);
+        input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), UserInputActivity.class));
+            }
+        });
 
         Spinner trendSpin = (Spinner) root.findViewById(R.id.hp_trending_spinner);
         String[] trendTimes = {"Past Hour", "Past Day", "Past Week", "Past Month", "All Time"};
