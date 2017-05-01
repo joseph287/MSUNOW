@@ -19,8 +19,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
+import java.util.StringTokenizer;
 
 public class RoomPage extends AppCompatActivity {
 
@@ -30,6 +34,11 @@ public class RoomPage extends AppCompatActivity {
     FirebaseDatabase database;
     ChildEventListener mChildEventListener;
 
+    DatabaseReference myRef_post;
+    FirebaseDatabase database_post;
+    Button input;
+    private ArrayList<String> titles;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +46,18 @@ public class RoomPage extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("topic");
-
         room = getIntent().getStringExtra("ROOM");
+
+        database_post= FirebaseDatabase.getInstance();
+        myRef_post= database_post.getReference().child("post");
+
+        input = (Button) findViewById(R.id.rp_input);
+        input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RoomPage.this, UserInputActivity.class));
+            }
+        });
 
         TextView tvs = (TextView) findViewById(R.id.rp_tvs);
         tvs.setText(tvs.getText()+room+" ");
@@ -49,10 +68,33 @@ public class RoomPage extends AppCompatActivity {
         loadUI();
     }
 
-    private void loadUI() {
-        AutoCompleteTextView search = (AutoCompleteTextView) findViewById(R.id.rp_searchbox);
 
+    private void loadUI() {
+        final AutoCompleteTextView search = (AutoCompleteTextView) findViewById(R.id.rp_searchbox);
         Button searchbtn = (Button) findViewById(R.id.rp_searchbtn);
+        titles= new ArrayList<>();
+
+        final ArrayAdapter<String> adapter = new
+                ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,titles);
+        search.setAdapter(adapter);
+        search.setThreshold(1);
+
+
+        searchbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!search.getText().toString().equals("")) {
+                    Intent i = new Intent(RoomPage.this, ForumPage.class);
+                    i.putExtra("TITLE", search.getText().toString());
+                    i.putExtra("ROOM", room);
+                    startActivity(i);
+                }
+                else {
+                    search.setError("You must input something");
+                }
+            }
+        });
+
 
         Spinner trendSpin = (Spinner) findViewById(R.id.rp_trending_spinner);
         String[] trendTimes = {"Past Hour", "Past Day", "Past Week", "Past Month", "All Time"};
@@ -61,7 +103,7 @@ public class RoomPage extends AppCompatActivity {
 
         ListView lvTrend = (ListView) findViewById(R.id.rp_listview_trending);
         final String[] exampleTrend = {"TEST1", "TEST2", "TEST3", "TEST4", "TEST5"};
-        ArrayAdapter<String> tAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, exampleTrend);
+        final ArrayAdapter<String> tAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, exampleTrend);
         lvTrend.setAdapter(tAdapter);
         lvTrend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -91,6 +133,10 @@ public class RoomPage extends AppCompatActivity {
                 Topic topic = dataSnapshot.getValue(Topic.class);
                 if(topic.getRoom().equals(room))
                     topics.add(topic.getTitle());
+
+                ForumPost posts = dataSnapshot.getValue(ForumPost.class);
+                if(posts.getRoom().equals(room))
+                    titles.add(posts.getTitle());
             }
 
             @Override
@@ -114,6 +160,7 @@ public class RoomPage extends AppCompatActivity {
             }
         };
         myRef.addChildEventListener(mChildEventListener);
+
     }
 
 

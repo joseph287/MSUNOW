@@ -151,12 +151,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    //used to test the input page, can be deleted when I am done-Wenjie
-    public void test(View view) {
-
-        startActivity(new Intent(this, UserInputActivity.class));
-
-    }
 
     // OnClick Listener for Login,Forgot Password and new registration.
     private class MyLsnr implements View.OnClickListener {
