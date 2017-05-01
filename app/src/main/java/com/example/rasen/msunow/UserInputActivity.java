@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -75,7 +76,6 @@ public class UserInputActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -116,22 +116,38 @@ public class UserInputActivity extends AppCompatActivity {
         //this can be replaced by user in login
        //author = "user1@montclair.edu";
         author= shprefs.getString(Utils.CURRUSER, "the user's email");
+        if(dataInserted(input_title,input_body)) {
+            if (!input_room.equals("") && !input_body.equals("") && !author.equals("")) {
 
-        if(!input_room.equals("")&&!input_body.equals("")&&!author.equals("")) {
+                time = getCurrentTime();
+                photoURL = null;
+                karma = 0;
 
-            time = getCurrentTime();
-            photoURL = null;
-            karma = 0;
+                Topic input = new Topic(input_title, input_body, input_room, author, time, photoURL, karma);
+                myRef.push().setValue(input);
+                dialog.show();
 
-            Topic input = new Topic(input_title, input_body, input_room, author, time, photoURL, karma);
-            myRef.push().setValue(input);
-            dialog.show();
-
-        } else {
-            Toast.makeText(this, "Please say something" , Toast.LENGTH_LONG);
+            } else {
+                Toast.makeText(this, "Please say something", Toast.LENGTH_LONG);
+            }
         }
 
     }
+
+    private boolean dataInserted(String input_title, String input_body) {
+        Boolean isValid = true;
+
+        if(TextUtils.isEmpty(input_title)){
+            title.setError("Please enter a title");
+            isValid = false;
+        }
+        if(TextUtils.isEmpty(input_body)){
+            body.setError("Please enter a body");
+            isValid = false;
+        }
+        return isValid;
+    }
+
     public String getCurrentTime(){
         SimpleDateFormat format = new SimpleDateFormat(Utils.DATEFORMAT);
         return format.format(Calendar.getInstance().getTime());

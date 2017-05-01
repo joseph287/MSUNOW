@@ -201,7 +201,7 @@ public class RegisterActivity extends AppCompatActivity {
         // Password validation, minimum 6 characters required
         String passwordPattern = "(?=.*[A-Za-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$";
         if (TextUtils.isEmpty(password) || !(password.matches(passwordPattern))) {
-            etPassword.setError("Password should include numbers and characters with min length 6");
+            etPassword.setError("Password with min length should include a-z/A-z,special char & no.");
             isValid = false;
 
         }
