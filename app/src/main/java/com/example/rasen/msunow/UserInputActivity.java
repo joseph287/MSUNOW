@@ -23,7 +23,6 @@ import com.example.rasen.msunow.InputTopic.Topic;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-//import static com.example.rasen.msunow.LoginActivity.user;
 
 import com.example.rasen.msunow.Utils.Utils;
 import com.google.firebase.database.ChildEventListener;
@@ -153,23 +152,26 @@ public class UserInputActivity extends AppCompatActivity {
         return format.format(Calendar.getInstance().getTime());
     }
     public class CustomDialog extends Dialog implements View.OnClickListener {
-        Button btn1;
+        Button toMyTopic;
         Activity mActivity;
 
         public CustomDialog(Activity activity) {
             super(activity);
             mActivity = activity;
             setContentView(R.layout.dialog);
-            btn1 = (Button) findViewById(R.id.diglog_btn);
-            btn1.setOnClickListener(this);
+            toMyTopic = (Button) findViewById(R.id.diglog_btn);
+            toMyTopic.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
 
-            if (v==btn1){
-                Intent i = new Intent(getApplicationContext(), Dashboard.class);
-                mActivity.startActivity(i);}
+            if (v==toMyTopic){
+                Intent i = new Intent(getApplicationContext(), ForumPage.class);
+                i.putExtra("TITLE", input_title);
+                i.putExtra("ROOM", input_room);
+                startActivity(i);
+            }
     }
 
 
