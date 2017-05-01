@@ -48,6 +48,15 @@
     <string name="title_activity_register">Register</string>
     <string name="update_changes">Update Changes</string>
     <string name="nav_logout">Log Out</string>
+    <string name="caption_topic_title">Topic Subject</string>
+    <string name="caption_hint_topic_title">Enter Topic Title</string>
+    <string name="caption_topic_body">Topic Body</string>
+    <string name="caption_hint_topic_body">Enter Topic Body</string>
+    <string name="caption_select_room">Select Room</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_post">Post</string>
+    <string name="action_back">Back</string>
+    <string name="caption_view_other_discussions">View All Other Discussions</string>
 
 
     <string-array name="rooms">

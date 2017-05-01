@@ -23,72 +23,109 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/bback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_cancel"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp"
             android:onClick="BackToPre"
-            android:text="back" />
+            android:text="@string/action_back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View All Other Discussions" />
+            android:layout_marginLeft="5dp"
+            style="@style/CategoryStyle"
+            android:text="@string/caption_view_other_discussions" />
 
     </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/topic_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="20dp"
-        android:background="@color/colorGrey"
-        android:ems="10"
-        android:hint="@string/topic_subject"
-        android:imeOptions="actionNext"
-        android:inputType="text" />
+            <!-- Topic Label -->
+            <TextView
+                android:id="@+id/tv_topic_title"
+                style="@style/CategoryStyle"
+                android:text="@string/caption_topic_title" />
 
-    <EditText
-        android:id="@+id/topic_body"
-        android:layout_width="match_parent"
-        android:layout_height="200sp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="20dp"
-        android:background="@color/colorGrey"
-        android:ems="10"
-        android:hint="@string/topic_body"
-        android:imeOptions="actionNext"
-        android:inputType="textMultiLine" />
+            <!-- Input fields -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:paddingLeft="0dp">
 
-    <TextView
-        android:id="@+id/room_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="20dp"
-        android:ems="10"
-        android:imeOptions="actionNext"
-        android:text="Rooms to Be Selected" />
+                <!-- Topic subject field -->
+                <EditText
+                    android:id="@+id/topic_title"
+                    style="@style/EditorFieldStyle"
+                    android:hint="@string/caption_hint_topic_title"
+                    android:inputType="text" />
 
-    <Spinner
-        android:id="@+id/rooms_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:background="@color/colorGrey"
-        android:spinnerMode="dropdown"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Topic Body Label -->
+            <TextView
+                android:id="@+id/tv_topic_body"
+                style="@style/CategoryStyle"
+                android:text="@string/caption_topic_body" />
+
+            <!-- Input fields -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:paddingLeft="0dp">
+
+                <!-- Topic Body field -->
+                <EditText
+                    android:id="@+id/topic_body"
+                    style="@style/EditorFieldStyle"
+                    android:hint="@string/caption_hint_topic_body"
+                    android:inputType="textMultiLine" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/container_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Spinner Label -->
+            <TextView
+                android:text="@string/caption_select_room"
+                style="@style/CategoryStyle" />
+
+            <!-- Input field -->
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <!-- Room drop-down spinner -->
+                <Spinner
+                    android:id="@+id/rooms_spinner"
+                    android:layout_height="48dp"
+                    android:layout_width="wrap_content"
+                    android:paddingRight="16dp"
+                    android:spinnerMode="dropdown"/>
+            </LinearLayout>
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -98,19 +135,26 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/bcancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/button_cancel"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp"
             android:onClick="cancel"
-            android:text="CANCEL" />
-
+            android:text="@string/action_cancel" />
 
         <Button
+            android:id="@+id/bpost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:background="@drawable/button_post"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp"
             android:onClick="post"
-            android:text="Post" />
-
+            android:layout_gravity="right"
+            android:text="@string/action_post" />
 
     </LinearLayout>
 
