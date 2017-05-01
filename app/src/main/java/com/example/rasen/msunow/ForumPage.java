@@ -28,7 +28,7 @@ import java.util.Objects;
 public class ForumPage extends AppCompatActivity {
 
     ListView list;
-    Button postBtn;
+    Button postBtn, subBtn;
     EditText edtxt;
     String username, title, room;
     ForumPostAdapter mAdapt;
@@ -48,6 +48,7 @@ public class ForumPage extends AppCompatActivity {
         UID = getSharedPreferences(Utils.SHPRFN, MODE_APPEND).getString(Utils.UID, "");
         title = getIntent().getStringExtra("TITLE");
         room = getIntent().getStringExtra("ROOM");
+        subBtn = (Button) findViewById(R.id.sub);
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("post");
@@ -67,7 +68,7 @@ public class ForumPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(edtxt.getText().toString().length()>0){
-                    myRef.push().setValue(new ForumPost(edtxt.getText().toString(), username, getCurrentTime(), null, 0, title, room));
+                    myRef.push().setValue(new ForumPost(edtxt.getText().toString(), username, getCurrentTime(), null, 0, title, room, true));
                     edtxt.setText("");
                 }
             }
@@ -119,7 +120,7 @@ public class ForumPage extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Topic topic = dataSnapshot.getValue(Topic.class);
                 if(topic.getTitle().equals(title) && topic.getRoom().equals(room)) {
-                    posts.add(new ForumPost(topic.getBody(), topic.getAuthor(), topic.getTime(), topic.getPhotoURL(), topic.getKarma(), topic.getTitle(), topic.getRoom()));
+                    posts.add(new ForumPost(topic.getBody(), topic.getAuthor(), topic.getTime(), topic.getPhotoURL(), topic.getKarma(), topic.getTitle(), topic.getRoom(), topic.getSubscribe()));
                     mKeys.add(dataSnapshot.getKey());
                 }
             }

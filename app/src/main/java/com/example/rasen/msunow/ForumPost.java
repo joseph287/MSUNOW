@@ -12,12 +12,13 @@ public class ForumPost {
     private int karma;
     private String title;
     private String room;
+    private boolean subscribe;
 
     public ForumPost(){
 
     }
 
-    public ForumPost(String body, String author, String time, String photoURL, int karma, String title, String room) {
+    public ForumPost(String body, String author, String time, String photoURL, int karma, String title, String room, boolean subscribe) {
         this.body = body;
         this.author = author;
         this.time = time;
@@ -25,6 +26,7 @@ public class ForumPost {
         this.karma = karma;
         this.title = title;
         this.room = room;
+        this.subscribe = subscribe;
     }
 
     public String getTitle() {
@@ -82,4 +84,8 @@ public class ForumPost {
     public void setKarma(int karma) {
         this.karma = karma;
     }
+
+    public  boolean getSubscribe() {return subscribe;}
+
+    public void setSubscribe (boolean subscribe) { this.subscribe = subscribe;}
 }

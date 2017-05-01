@@ -12,11 +12,12 @@ public class Topic {
     private String time;
     private String photoURL;
     private int karma;
+    private boolean subscribe;
 
     public Topic(){
     }
 
-    public Topic(String title, String body, String room, String author, String time, String photoURL, int karma){
+    public Topic(String title, String body, String room, String author, String time, String photoURL, int karma, boolean subscribe){
         this.title=title;
         this.body= body;
         this.room= room;
@@ -24,6 +25,7 @@ public class Topic {
         this.time=time;
         this.photoURL=photoURL;
         this.karma=karma;
+        this.subscribe = subscribe;
     }
 
     public String getTitle() {
@@ -50,6 +52,8 @@ public class Topic {
         return karma;
     }
 
+    public boolean getSubscribe() { return subscribe;}
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -73,6 +77,8 @@ public class Topic {
     public void setKarma(int karma) {
         this.karma = karma;
     }
+
+    public void setSubscribe(boolean subscribe) {this.subscribe = subscribe;}
 
     public String getTime() {
         return time;
