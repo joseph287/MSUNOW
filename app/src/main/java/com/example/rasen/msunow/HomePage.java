@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +14,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rasen.msunow.InputTopic.Topic;
@@ -29,6 +32,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -49,14 +55,20 @@ public class HomePage extends Fragment {
     private String mParam1;
     private String mParam2;
     private View root;
-    private Button input;
+    private FloatingActionButton input;
     private ArrayList<String> trending;
     DatabaseReference myRef;
+    DatabaseReference myRef_posts;
     FirebaseDatabase database;
+    FirebaseDatabase database_posts;
+    Button go;
+    ArrayList topics;
+    Map posts;
     ChildEventListener mChildEventListener;
     Spinner trendSpin;
     ArrayList<Topic> trendingTopics;
     ArrayAdapter<String> tAdapter;
+    private String room;
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,11 +81,35 @@ public class HomePage extends Fragment {
         myRef = database.getReference("topic");
         trendingTopics = new ArrayList<>();
 
-        AutoCompleteTextView search = (AutoCompleteTextView) root.findViewById(R.id.hp_searchbox);
+        topics= new ArrayList<HashMap<String, String>>();
 
-        Button searchbtn = (Button) root.findViewById(R.id.hp_searchbtn);
+        database_posts = FirebaseDatabase.getInstance();
+        myRef_posts = database_posts.getReference().child("post");
 
-        input = (Button) root.findViewById(R.id.hp_input);
+        final AutoCompleteTextView search = (AutoCompleteTextView) root.findViewById(R.id.hp_searchbox);
+
+        ImageButton searchbtn = (ImageButton) root.findViewById(R.id.hp_searchbtn);
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, topics);
+        search.setAdapter(adapter);
+        search.setThreshold(1);
+
+        searchbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!search.getText().toString().equals("")){
+                    Intent intent = new Intent(getContext(),ForumPage.class);
+                    intent.putExtra("TITLE",search.getText().toString());
+                    intent.putExtra("ROOM",posts.get(search.getText().toString()).toString());
+                    startActivity(intent);
+                }
+                else {
+                    search.setError("You must input something");
+                }
+            }
+        });
+
+        input = (FloatingActionButton) root.findViewById(R.id.hp_input);
         input.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,6 +168,12 @@ public class HomePage extends Fragment {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Topic topic = dataSnapshot.getValue(Topic.class);
                     trendingTopics.add(topic);
+
+                ForumPost post = dataSnapshot.getValue(ForumPost.class);
+                posts = new HashMap<String, String>();
+                posts.put("title",post.getTitle());
+                posts.put("room",post.getRoom());
+                topics.add(posts.values());
             }
 
             @Override
@@ -158,6 +200,7 @@ public class HomePage extends Fragment {
 
         sortTopics();
     }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
