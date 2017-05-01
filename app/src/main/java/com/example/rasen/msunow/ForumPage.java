@@ -68,7 +68,7 @@ public class ForumPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(edtxt.getText().toString().length()>0){
-                    myRef.push().setValue(new ForumPost(edtxt.getText().toString(), username, getCurrentTime(), null, 0, title, room, true));
+                    myRef.push().setValue(new ForumPost(edtxt.getText().toString(), username, getCurrentTime(), null, 0, title, room, !false));
                     edtxt.setText("");
                 }
             }

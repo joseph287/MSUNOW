@@ -47,6 +47,7 @@ public class UserInputActivity extends AppCompatActivity {
     private String time;
     private String photoURL;
     private int karma;
+    private boolean subscribe;
 
     private FirebaseDatabase database;
     private DatabaseReference myRef;
@@ -122,7 +123,7 @@ public class UserInputActivity extends AppCompatActivity {
                 photoURL = null;
                 karma = 0;
 
-                Topic input = new Topic(input_title, input_body, input_room, author, time, photoURL, karma);
+                Topic input = new Topic(input_title, input_body, input_room, author, time, photoURL, karma, subscribe);
                 myRef.push().setValue(input);
                 dialog.show();
 
