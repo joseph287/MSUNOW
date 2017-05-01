@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.rasen.msunow.InputTopic.Topic;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 //import static com.example.rasen.msunow.LoginActivity.user;
@@ -118,7 +119,7 @@ public class UserInputActivity extends AppCompatActivity {
 
         if(!input_room.equals("")&&!input_body.equals("")&&!author.equals("")) {
 
-            time = Calendar.getInstance().getTime().toString();
+            time = getCurrentTime();
             photoURL = null;
             karma = 0;
 
@@ -131,7 +132,10 @@ public class UserInputActivity extends AppCompatActivity {
         }
 
     }
-
+    public String getCurrentTime(){
+        SimpleDateFormat format = new SimpleDateFormat(Utils.DATEFORMAT);
+        return format.format(Calendar.getInstance().getTime());
+    }
     public class CustomDialog extends Dialog implements View.OnClickListener {
         Button btn1;
         Activity mActivity;

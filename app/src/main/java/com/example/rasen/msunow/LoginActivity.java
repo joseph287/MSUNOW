@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -92,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                             // there was an error
                             Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                         } else {
+//                            FirebaseUser user = auth.getCurrentUser();
                             shprefs = getSharedPreferences(Utils.SHPRFN, MODE_APPEND);
                             editor = shprefs.edit();
                             editor.putString(Utils.CURRUSER, email);

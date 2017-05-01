@@ -1,6 +1,8 @@
 package com.example.rasen.msunow;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,9 +19,18 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.rasen.msunow.Utils.Utils;
+import com.facebook.stetho.common.Util;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         HomePage.OnFragmentInteractionListener, AccountSettings.OnFragmentInteractionListener, SubsPage.OnFragmentInteractionListener {
@@ -28,6 +39,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     DatabaseReference myRef;
     FirebaseDatabase database;
     FirebaseAuth auth;
+    String curuser;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +60,42 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         navigationView.setNavigationItemSelectedListener(this);
 
         TextView useremail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
-        useremail.setText(getSharedPreferences(Utils.SHPRFN, MODE_APPEND).getString(Utils.CURRUSER, ""));
+        SharedPreferences shprefs = getSharedPreferences(Utils.SHPRFN, MODE_APPEND);
+        editor = shprefs.edit();
+        curuser = shprefs.getString(Utils.CURRUSER, "");
+        useremail.setText(curuser);
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map<String, String > activeUser = getUsers((Map<String, Object>) dataSnapshot.getValue());
+                if (activeUser != null) {
+                    editor.putString(Utils.UID, activeUser.get("userId"));
+                    editor.commit();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         mode = "HOME";
         setFragment();
+    }
+
+    private Map<String, String> getUsers(Map<String, Object> user) {
+        for (Map.Entry<String, Object> entry : user.entrySet()) {
+            Map<String, String> singleUser = (Map<String, String>) entry.getValue();
+            if (singleUser.get("email").equals(curuser)) {
+                return singleUser;
+
+            }
+        }
+        return null;
     }
 
     private void setFragment() {

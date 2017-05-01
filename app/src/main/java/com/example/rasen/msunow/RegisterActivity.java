@@ -141,6 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
             registerRequest.setPassword(password);
             registerRequest.setDob(dob);
             database.child("users").child(registerRequest.getUserId()).setValue(registerRequest);
+
             finish();
             Intent intent = new Intent(RegisterActivity.this, Dashboard.class);
             startActivity(intent);

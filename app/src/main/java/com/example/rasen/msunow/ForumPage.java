@@ -2,11 +2,13 @@ package com.example.rasen.msunow;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rasen.msunow.InputTopic.Topic;
 import com.example.rasen.msunow.Utils.Utils;
@@ -19,6 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class ForumPage extends AppCompatActivity {
 
@@ -27,10 +32,12 @@ public class ForumPage extends AppCompatActivity {
     EditText edtxt;
     String username, title, room;
     ForumPostAdapter mAdapt;
+    static ArrayList<String> mKeys;
     DatabaseReference myRef;
     FirebaseDatabase database;
+    static String UID;
 
-    ArrayList<ForumPost> posts;
+    static ArrayList<ForumPost> posts;
     ChildEventListener mChildEventListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +45,7 @@ public class ForumPage extends AppCompatActivity {
         setContentView(R.layout.activity_forum_page);
 
         username = getSharedPreferences(Utils.SHPRFN, MODE_APPEND).getString(Utils.CURRUSER, "");
+        UID = getSharedPreferences(Utils.SHPRFN, MODE_APPEND).getString(Utils.UID, "");
         title = getIntent().getStringExtra("TITLE");
         room = getIntent().getStringExtra("ROOM");
 
@@ -52,6 +60,7 @@ public class ForumPage extends AppCompatActivity {
         edtxt = (EditText) findViewById(R.id.msg_box);
         list = (ListView) findViewById(R.id.fp_list);
         mAdapt = new ForumPostAdapter(this, R.layout.forum_post, posts);
+        mKeys = new ArrayList<>();
         list.setAdapter(mAdapt);
         postBtn = (Button) findViewById(R.id.send_msg);
         postBtn.setOnClickListener(new View.OnClickListener() {
@@ -68,8 +77,10 @@ public class ForumPage extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 ForumPost post = dataSnapshot.getValue(ForumPost.class);
-                if(post.getTitle().equals(title) && post.getRoom().equals(room))
+                if(post.getTitle().equals(title) && post.getRoom().equals(room)) {
                     mAdapt.add(post);
+                    mKeys.add(dataSnapshot.getKey());
+                }
             }
 
             @Override
@@ -96,7 +107,7 @@ public class ForumPage extends AppCompatActivity {
     }
 
     public String getCurrentTime(){
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat(Utils.DATEFORMAT);
         return format.format(Calendar.getInstance().getTime());
     }
 
@@ -107,8 +118,10 @@ public class ForumPage extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Topic topic = dataSnapshot.getValue(Topic.class);
-                if(topic.getTitle().equals(title) && topic.getRoom().equals(room))
-                    posts.add(new ForumPost(topic.getBody(),topic.getAuthor(), topic.getTime(), topic.getPhotoURL(), topic.getKarma(), topic.getTitle(), topic.getRoom()));
+                if(topic.getTitle().equals(title) && topic.getRoom().equals(room)) {
+                    posts.add(new ForumPost(topic.getBody(), topic.getAuthor(), topic.getTime(), topic.getPhotoURL(), topic.getKarma(), topic.getTitle(), topic.getRoom()));
+                    mKeys.add(dataSnapshot.getKey());
+                }
             }
 
             @Override
@@ -132,5 +145,17 @@ public class ForumPage extends AppCompatActivity {
             }
         };
         tRef.addChildEventListener(childEventListener);
+    }
+
+    public static void setVote(int position) {
+        DatabaseReference initref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref;
+        if(position == 0)
+            ref = initref.child("topic");
+        else
+            ref = initref.child("post");
+        Map<String, Object> update = new HashMap<>();
+        update.put("karma", posts.get(position).getKarma());
+        ref.child(mKeys.get(position)).updateChildren(update);
     }
 }

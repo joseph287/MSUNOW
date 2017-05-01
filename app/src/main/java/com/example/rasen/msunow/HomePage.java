@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,19 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.rasen.msunow.InputTopic.Topic;
+import com.example.rasen.msunow.Utils.Utils;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 
 /**
@@ -36,6 +50,13 @@ public class HomePage extends Fragment {
     private String mParam2;
     private View root;
     private Button input;
+    private ArrayList<String> trending;
+    DatabaseReference myRef;
+    FirebaseDatabase database;
+    ChildEventListener mChildEventListener;
+    Spinner trendSpin;
+    ArrayList<Topic> trendingTopics;
+    ArrayAdapter<String> tAdapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -44,6 +65,10 @@ public class HomePage extends Fragment {
     }
 
     public void loadUI(){
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("topic");
+        trendingTopics = new ArrayList<>();
+
         AutoCompleteTextView search = (AutoCompleteTextView) root.findViewById(R.id.hp_searchbox);
 
         Button searchbtn = (Button) root.findViewById(R.id.hp_searchbtn);
@@ -57,18 +82,35 @@ public class HomePage extends Fragment {
         });
 
         Spinner trendSpin = (Spinner) root.findViewById(R.id.hp_trending_spinner);
+        trendSpin = (Spinner) root.findViewById(R.id.hp_trending_spinner);
         String[] trendTimes = {"Past Hour", "Past Day", "Past Week", "Past Month", "All Time"};
-        ArrayAdapter<String> spAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, trendTimes);
+        ArrayAdapter<String> spAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, trendTimes);
         trendSpin.setAdapter(spAdapter);
+        trendSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setTrending();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         ListView lvTrend = (ListView) root.findViewById(R.id.hp_listview_trending);
         final String[] exampleTrend = {"TEST1", "TEST2", "TEST3", "TEST4", "TEST5"};
-        ArrayAdapter<String> tAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, exampleTrend);
+        trending = new ArrayList<>();
+        tAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, trending);
         lvTrend.setAdapter(tAdapter);
         lvTrend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "TODO: Move to topic", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), ForumPage.class);
+                String[] sList = trending.get(position).split("\t-\t");
+                intent.putExtra("TITLE", sList[0]);
+                intent.putExtra("ROOM", sList[1]);
+                startActivity(intent);
             }
         });
 
@@ -84,6 +126,37 @@ public class HomePage extends Fragment {
                 startActivity(intent);
             }
         });
+
+        mChildEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Topic topic = dataSnapshot.getValue(Topic.class);
+                    trendingTopics.add(topic);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        myRef.addChildEventListener(mChildEventListener);
+
+        sortTopics();
     }
     /**
      * Use this factory method to create a new instance of
@@ -159,5 +232,63 @@ public class HomePage extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void sortTopics() {
+        for(int i=0;i<trendingTopics.size();i++){
+            int highestKarma = i;
+            for(int j=i+1;j<trendingTopics.size();j++){
+                if(trendingTopics.get(highestKarma).getKarma()<trendingTopics.get(j).getKarma()){
+                    highestKarma = j;
+                }
+            }
+            trendingTopics.add(i, trendingTopics.remove(highestKarma));
+        }
+    }
+
+    public long differencceInTime(String date) {
+        SimpleDateFormat format = new SimpleDateFormat(Utils.DATEFORMAT);
+        try {
+            return Calendar.getInstance().getTime().getTime() - format.parse(date).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private void setTrending() {
+        trending.clear();
+        tAdapter.clear();
+        for(Topic topic: trendingTopics) {
+            if (trending.size() < 5) {
+                Log.i("TIME", String.valueOf(differencceInTime(topic.getTime())));
+                switch (trendSpin.getSelectedItemPosition()) {
+                    case 0:
+                        if (differencceInTime(topic.getTime()) <= 3600000)
+                            trending.add(topic.getTitle()+"\t-\t"+topic.getRoom());
+                        break;
+                    case 1:
+                        if (differencceInTime(topic.getTime()) <= 86400000)
+                            trending.add(topic.getTitle()+"\t-\t"+topic.getRoom());
+                        break;
+                    case 2:
+                        if (differencceInTime(topic.getTime()) <= 604800000)
+                            trending.add(topic.getTitle()+"\t-\t"+topic.getRoom());
+                        break;
+                    case 3:
+                        long num = (long) 259200000*10;
+                        if (differencceInTime(topic.getTime()) <= num)
+                            trending.add(topic.getTitle()+"\t-\t"+topic.getRoom());
+                        break;
+                    case 4:
+                        trending.add(topic.getTitle()+"\t-\t"+topic.getRoom());
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        }
+
     }
 }
