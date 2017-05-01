@@ -84,7 +84,6 @@ public class RoomPage extends AppCompatActivity {
         final AutoCompleteTextView search = (AutoCompleteTextView) findViewById(R.id.rp_searchbox);
         Button searchbtn = (Button) findViewById(R.id.rp_searchbtn);
         trendingTopics = new ArrayList<>();
-        trendSpin = (Spinner) findViewById(R.id.rp_trending_spinner);
         titles= new ArrayList<>();
 
         final ArrayAdapter<String> adapter = new
@@ -109,7 +108,7 @@ public class RoomPage extends AppCompatActivity {
         });
 
 
-        Spinner trendSpin = (Spinner) findViewById(R.id.rp_trending_spinner);
+        trendSpin = (Spinner) findViewById(R.id.rp_trending_spinner);
         String[] trendTimes = {"Past Hour", "Past Day", "Past Week", "Past Month", "All Time"};
         ArrayAdapter<String> spAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, trendTimes);
         trendSpin.setAdapter(spAdapter);

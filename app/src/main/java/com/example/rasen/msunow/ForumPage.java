@@ -78,7 +78,7 @@ public class ForumPage extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 ForumPost post = dataSnapshot.getValue(ForumPost.class);
-                if(post.getTitle().equals(title) && post.getRoom().equals(room)) {
+                if(post!=null && title!=null && room!=null && post.getTitle().equals(title) && post.getRoom().equals(room)) {
                     mAdapt.add(post);
                     mKeys.add(dataSnapshot.getKey());
                 }
@@ -158,5 +158,11 @@ public class ForumPage extends AppCompatActivity {
         Map<String, Object> update = new HashMap<>();
         update.put("karma", posts.get(position).getKarma());
         ref.child(mKeys.get(position)).updateChildren(update);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

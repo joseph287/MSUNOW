@@ -69,6 +69,7 @@ public class HomePage extends Fragment {
     ArrayList<Topic> trendingTopics;
     ArrayAdapter<String> tAdapter;
     private String room;
+    ArrayList<String> autoList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -82,6 +83,7 @@ public class HomePage extends Fragment {
         trendingTopics = new ArrayList<>();
 
         topics= new ArrayList<HashMap<String, String>>();
+        autoList = new ArrayList<>();
 
         database_posts = FirebaseDatabase.getInstance();
         myRef_posts = database_posts.getReference().child("post");
@@ -90,7 +92,7 @@ public class HomePage extends Fragment {
 
         ImageButton searchbtn = (ImageButton) root.findViewById(R.id.hp_searchbtn);
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, topics);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item, autoList);
         search.setAdapter(adapter);
         search.setThreshold(1);
 
@@ -117,7 +119,6 @@ public class HomePage extends Fragment {
             }
         });
 
-        Spinner trendSpin = (Spinner) root.findViewById(R.id.hp_trending_spinner);
         trendSpin = (Spinner) root.findViewById(R.id.hp_trending_spinner);
         String[] trendTimes = {"Past Hour", "Past Day", "Past Week", "Past Month", "All Time"};
         ArrayAdapter<String> spAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, trendTimes);
@@ -199,6 +200,7 @@ public class HomePage extends Fragment {
         myRef.addChildEventListener(mChildEventListener);
 
         sortTopics();
+        setTrending();
     }
 
     /**
@@ -301,8 +303,10 @@ public class HomePage extends Fragment {
 
     private void setTrending() {
         trending.clear();
+        autoList.clear();
         tAdapter.clear();
         for(Topic topic: trendingTopics) {
+            autoList.add(topic.getTitle()+"\t-\t"+topic.getRoom());
             if (trending.size() < 5) {
                 Log.i("TIME", String.valueOf(differencceInTime(topic.getTime())));
                 switch (trendSpin.getSelectedItemPosition()) {
