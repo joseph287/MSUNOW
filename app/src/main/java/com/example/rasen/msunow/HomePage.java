@@ -100,10 +100,11 @@ public class HomePage extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!search.getText().toString().equals("")){
-                    Intent intent = new Intent(getContext(),ForumPage.class);
-                    intent.putExtra("TITLE",search.getText().toString());
-                    intent.putExtra("ROOM",posts.get(search.getText().toString()).toString());
-                    startActivity(intent);
+                    Intent intent = new Intent(getActivity(), ForumPage.class);
+                    String[] sList = search.getText().toString().split("\t-\t");
+                    intent.putExtra("TITLE", sList[0]);
+                    intent.putExtra("ROOM", sList[1]);
+                    startActivity(intent);;
                 }
                 else {
                     search.setError("You must input something");

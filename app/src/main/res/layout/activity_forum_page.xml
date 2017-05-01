@@ -6,23 +6,30 @@
     android:layout_height="match_parent"
     tools:context="com.example.rasen.msunow.ForumPage">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:id="@+id/forum_title" />
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:id="@+id/forum_title"
+            android:layout_weight="5"/>
 
-    <Button
-        android:id="@+id/sub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Subscribe"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="38dp"
-        android:layout_marginEnd="38dp" />
+        <Button
+            android:id="@+id/sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subscribe"
+            android:layout_marginRight="38dp"
+            android:layout_marginEnd="38dp"
+            android:layout_weight="0"/>
+
+    </LinearLayout>
+
 
     <ListView
         android:id="@+id/fp_list"
@@ -31,7 +38,8 @@
         android:stackFromBottom="false"
         android:divider="@color/colorPrimary"
         android:transcriptMode="alwaysScroll"
-        android:layout_below="@+id/forum_title"
+        android:layout_below="@+id/title_bar"
+        android:layout_above="@+id/msgbar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
     <LinearLayout

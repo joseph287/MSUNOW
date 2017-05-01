@@ -40,6 +40,7 @@ public class SubsPage extends Fragment {
     FirebaseAuth auth;
     FirebaseUser user;
     private ListView subList;
+    View root;
 
     Map<String, String> activeUser;
 
@@ -82,7 +83,10 @@ public class SubsPage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_subs_page, container, false);
+        root = inflater.inflate(R.layout.fragment_subs_page, container, false);
+        View rootView = root;
+        loadSubs();
+        return rootView;
     }
 
     private void loadSubs () {
@@ -92,7 +96,7 @@ public class SubsPage extends Fragment {
         user = auth.getCurrentUser();
 
         if (user == auth.getCurrentUser()){
-            loadSubs();
+
         }
         this.subList = subList;
     }
@@ -136,3 +140,4 @@ public class SubsPage extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 }
+

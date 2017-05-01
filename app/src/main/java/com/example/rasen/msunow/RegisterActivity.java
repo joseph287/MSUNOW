@@ -122,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Log.d(TAG, "Authentication failed." + task.getException());
 
                             } else {
-                                startActivity(new Intent(RegisterActivity.this, Dashboard.class));
+//                                startActivity(new Intent(RegisterActivity.this, Dashboard.class));
                                 finish();
                             }
                         }
@@ -143,8 +143,8 @@ public class RegisterActivity extends AppCompatActivity {
             database.child("users").child(registerRequest.getUserId()).setValue(registerRequest);
 
             finish();
-            Intent intent = new Intent(RegisterActivity.this, Dashboard.class);
-            startActivity(intent);
+//            Intent intent = new Intent(RegisterActivity.this, Dashboard.class);
+//            startActivity(intent);
         }
     }
 
